@@ -12,7 +12,7 @@
  * For more information on configuring datastores, check out:
  * https://sailsjs.com/config/datastores
  */
-
+const dotenv = require('dotenv').config();
 module.exports.datastores = {
 
 
@@ -49,7 +49,7 @@ module.exports.datastores = {
     *                                                                          *
     ***************************************************************************/
     adapter: 'sails-mysql',
-    url: 'mysql://dinaks:99ATO1t9sdXBMO4y0xHY@15.206.7.200:3310/dinaks',
+    url: process.env.PORT_URI,
 
   },
 

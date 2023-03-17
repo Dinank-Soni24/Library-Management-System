@@ -1,4 +1,11 @@
 {
-  "Welcome": "Welcome",
-  "A brand new app.": "A brand new app."
+	"Welcome": "Welcome",
+	"A brand new app.": "A brand new app.",
+	"user.dataNotCome": "please enter all required data",
+	"user.created": "user create successfully",
+	"user.exists": "user is already exists",
+	"user.notUpdate": "user not update at moment",
+	"user.found": "user is found successfully",
+	"user.logout": "user logout successfully",
+	"user.notLogout": "user.notLogout"
 }

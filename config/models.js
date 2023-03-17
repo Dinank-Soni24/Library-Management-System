@@ -13,6 +13,8 @@
  * https://sailsjs.com/docs/concepts/models-and-orm/model-settings
  */
 
+
+
 module.exports.models = {
 
 
@@ -53,7 +55,7 @@ module.exports.models = {
   *                                                                          *
   ***************************************************************************/
 
-  // migrate: 'alter',
+  migrate: 'safe',
 
 
   /***************************************************************************
@@ -71,7 +73,7 @@ module.exports.models = {
   attributes: {
     createdAt: { type: 'number', autoCreatedAt: true, },
     updatedAt: { type: 'number', autoUpdatedAt: true, },
-    id: { type: 'number', autoIncrement: true, },
+    id: { type: 'string' , required: true, },
     //--------------------------------------------------------------------------
     //  /\   Using MongoDB?
     //  ||   Replace `id` above with this instead:
