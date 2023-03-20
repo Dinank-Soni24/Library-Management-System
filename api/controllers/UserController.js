@@ -8,7 +8,6 @@
 
 const bcrypt = require("bcrypt");
 const { Roles } = sails.config.constant;
-const { v4: uuidv4 } = require("uuid");
 
 module.exports = {
   signUp: async (req, res) => {
@@ -21,13 +20,16 @@ module.exports = {
         message: sails.__("user.dataNotCome"),
       });
     } else {
-      // bcrypt the password
-      const hashedPassword = await bcrypt.hash(password, 10);
-
       try {
+        // bcrypt the password
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        //get id from helper
+        const id = await sails.helpers.generateId();
+
         // store user data in database
         const newUser = await User.create({
-          id: uuidv4(),
+          id,
           name: name,
           email: email,
           password: hashedPassword,
@@ -41,7 +43,7 @@ module.exports = {
       } catch (error) {
         return res.status(409).json({
           message: sails.__("user.exists"),
-          error: error,
+          error: error.toString(),
         });
       }
     }
@@ -64,7 +66,7 @@ module.exports = {
     } else {
       //compare the user password with body password
       const checkPassword = await bcrypt.compare(
-        req.body.password,
+        password,
         user.password
       );
 
@@ -108,10 +110,10 @@ module.exports = {
         message: sails.__("user.logout"),
       });
     } catch (error) {
-        res.status(401).json({
-            message: sails.__("user.notLogout"),
-            error: error.toString(),
-          });
+      res.status(401).json({
+        message: sails.__("user.notLogout"),
+        error: error.toString(),
+      });
     }
   },
 };
