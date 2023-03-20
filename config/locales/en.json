@@ -30,5 +30,6 @@
 	"book.created": "book.created",
 	"book.update": "book.update",
 	"book.exists": "book.exists",
-	"book.delete": "book.delete"
+	"book.delete": "book.delete",
+	"book.notFound": "book.notFound"
 }

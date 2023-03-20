@@ -27,4 +27,7 @@ module.exports.routes = {
   "GET /admin/book": "BookController.getBook",
   "POST /admin/book/:id": "BookController.updateBook",
   "DELETE /admin/book/:id": "BookController.deleteBook",
+
+  "POST /User/book/issued": "HistoryController.issuedBook",
+
 };

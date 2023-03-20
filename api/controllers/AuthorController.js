@@ -76,7 +76,7 @@ module.exports = {
 
         //check the author is update or not
         if (author.length === 0) {
-          return res.status(409).json({
+          return res.status(404).json({
             message: sails.__("author.notFound"),
           });
         } else {

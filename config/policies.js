@@ -20,6 +20,9 @@ module.exports.policies = {
   // '*': true,
   UserController: {
     'logout': ['isLoggedIn']
+  },
+  HistoryController: {
+    'issuedBook': ['isLoggedIn']
   }
 
 };
