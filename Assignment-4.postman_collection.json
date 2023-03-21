@@ -1,0 +1,789 @@
+{
+	"info": {
+		"_postman_id": "179f0a31-c32d-4301-9122-1d6d34ddd75f",
+		"name": "Assignment-4",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "signUp",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "de",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "dinank1",
+									"type": "default"
+								},
+								{
+									"key": "email",
+									"value": "dinank1@soni.com",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{localUrl}}/user/signup",
+							"host": [
+								"{{localUrl}}"
+							],
+							"path": [
+								"user",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "dinank1@soni.com",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{localUrl}}/user/login",
+							"host": [
+								"{{localUrl}}"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localUrl}}/user/logout",
+							"host": [
+								"{{localUrl}}"
+							],
+							"path": [
+								"user",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "category",
+			"item": [
+				{
+					"name": "addCategory",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{checkAuth}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Classics",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{localUrl}}/admin/category",
+							"host": [
+								"{{localUrl}}"
+							],
+							"path": [
+								"admin",
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCategory",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{checkAuth}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "i",
+									"type": "default",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{localUrl}}/admin/category",
+							"host": [
+								"{{localUrl}}"
+							],
+							"path": [
+								"admin",
+								"category"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "ss",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "6",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateCategory",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{checkAuth}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Poetry",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{localUrl}}/admin/category/0e392349-13bc-4d31-9b53-01d03f8666e4",
+							"host": [
+								"{{localUrl}}"
+							],
+							"path": [
+								"admin",
+								"category",
+								"0e392349-13bc-4d31-9b53-01d03f8666e4"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateCategory Copy",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{checkAuth}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{localUrl}}/admin/category/0e392349-13bc-4d31-9b53-01d03f8666e4",
+							"host": [
+								"{{localUrl}}"
+							],
+							"path": [
+								"admin",
+								"category",
+								"0e392349-13bc-4d31-9b53-01d03f8666e4"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "author",
+			"item": [
+				{
+					"name": "addAuthor",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{checkAuth}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Max Soni",
+									"type": "default"
+								},
+								{
+									"key": "email",
+									"value": "maxS1@one.com",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{localUrl}}/admin/author",
+							"host": [
+								"{{localUrl}}"
+							],
+							"path": [
+								"admin",
+								"author"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAuthor",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{checkAuth}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{localUrl}}/admin/author?limit=34",
+							"host": [
+								"{{localUrl}}"
+							],
+							"path": [
+								"admin",
+								"author"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "34"
+								},
+								{
+									"key": "name",
+									"value": "di",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateAuthor",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{checkAuth}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "max",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "maxS@one.com",
+									"type": "default",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{localUrl}}/admin/author/85a11cf1-ed84-4df6-a000-e3729639a4b5",
+							"host": [
+								"{{localUrl}}"
+							],
+							"path": [
+								"admin",
+								"author",
+								"85a11cf1-ed84-4df6-a000-e3729639a4b5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteAuthor",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{checkAuth}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{localUrl}}/admin/author/85a11cf1-ed84-4df6-a000-e3729639a4b5",
+							"host": [
+								"{{localUrl}}"
+							],
+							"path": [
+								"admin",
+								"author",
+								"85a11cf1-ed84-4df6-a000-e3729639a4b5"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "book",
+			"item": [
+				{
+					"name": "addBook",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{checkAuth}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "python 3",
+									"type": "default"
+								},
+								{
+									"key": "categoryId",
+									"value": "09e40e3f-8d90-4968-9344-994b9a38307f",
+									"type": "default"
+								},
+								{
+									"key": "authorId",
+									"value": "a7f650d9-c463-4173-b74c-e10f60193261",
+									"type": "default"
+								},
+								{
+									"key": "price",
+									"value": "600",
+									"type": "default"
+								},
+								{
+									"key": "publishYear",
+									"value": "2023",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{localUrl}}/admin/book",
+							"host": [
+								"{{localUrl}}"
+							],
+							"path": [
+								"admin",
+								"book"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateBook",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{checkAuth}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "python 2.O",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "price",
+									"value": "200",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "categoryId",
+									"value": "ea78a529-fe45-4700-b203-15f7b468dddf",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "authorId",
+									"value": "b19bf99c-a1c4-4657-88e2-b1b858043c89",
+									"type": "default"
+								},
+								{
+									"key": "publishYear",
+									"value": "2024",
+									"type": "default",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{localUrl}}/admin/book/7b25ce85-9a57-4f74-88a7-6cf4c5a589d2",
+							"host": [
+								"{{localUrl}}"
+							],
+							"path": [
+								"admin",
+								"book",
+								"7b25ce85-9a57-4f74-88a7-6cf4c5a589d2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getBook",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{checkAuth}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{localUrl}}/admin/book/?limit=3&author=",
+							"host": [
+								"{{localUrl}}"
+							],
+							"path": [
+								"admin",
+								"book",
+								""
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "3"
+								},
+								{
+									"key": "author",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteBook",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{checkAuth}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{localUrl}}/admin/book/ef71e656-4022-4ba2-ab5c-6d474a88bc85",
+							"host": [
+								"{{localUrl}}"
+							],
+							"path": [
+								"admin",
+								"book",
+								"ef71e656-4022-4ba2-ab5c-6d474a88bc85"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "available for user",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "au",
+								"value": "bearer {{checkAuth}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{localUrl}}/user/book?name=p&author=ma&category=h",
+							"host": [
+								"{{localUrl}}"
+							],
+							"path": [
+								"user",
+								"book"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "p"
+								},
+								{
+									"key": "author",
+									"value": "ma"
+								},
+								{
+									"key": "category",
+									"value": "h"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "History",
+			"item": [
+				{
+					"name": "issuedBook",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{checkAuth}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "bookId",
+									"value": "7b25ce85-9a57-4f74-88a7-6cf4c5a589d2",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{localUrl}}/user/book/issued",
+							"host": [
+								"{{localUrl}}"
+							],
+							"path": [
+								"user",
+								"book",
+								"issued"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "returnBook",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{checkAuth}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "bookId",
+									"value": "7b25ce85-9a57-4f74-88a7-6cf4c5a589d2",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{localUrl}}/user/book/return",
+							"host": [
+								"{{localUrl}}"
+							],
+							"path": [
+								"user",
+								"book",
+								"return"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "history",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{checkAuth}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "bookId",
+									"value": "7b25ce85-9a57-4f74-88a7-6cf4c5a589d2",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{localUrl}}/admin/book/history",
+							"host": [
+								"{{localUrl}}"
+							],
+							"path": [
+								"admin",
+								"book",
+								"history"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "localUrl",
+			"value": "http://localhost:1337",
+			"type": "default"
+		}
+	]
+}
