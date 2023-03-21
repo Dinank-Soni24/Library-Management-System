@@ -22,7 +22,22 @@ module.exports.policies = {
     'logout': ['isLoggedIn']
   },
   HistoryController: {
-    'issuedBook': ['isLoggedIn']
+    'issuedBook': ['isLoggedIn','isUser'],
+    'returnBook': ['isLoggedIn','isUser'],
+    'getHistory': ['isLoggedIn','isAdmin'],
+  },
+  categoryController: {
+    '*': ['isLoggedIn','isAdmin'],
+  },
+  authorController: {
+    '*': ['isLoggedIn','isAdmin'],
+  },
+  bookController: {
+    'addBook': ['isLoggedIn','isAdmin'],
+    'getBook': ['isLoggedIn','isAdmin'],
+    'updateBook': ['isLoggedIn','isAdmin'],
+    'deleteBook': ['isLoggedIn','isAdmin'],
+    'availableBook': ['isLoggedIn','isUser'],
   }
 
 };

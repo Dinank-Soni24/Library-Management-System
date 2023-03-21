@@ -41,22 +41,29 @@ module.exports = {
   },
 
   getAuthor: async (req, res) => {
-    try {
-      // pagination
-      const limit = req.query.limit || 2;
-      const skip = req.query.skip || 0;
-      //find all author from database
-      const author = await Author.find({ limit: limit, skip: skip });
-
+    // pagination
+    const limit = req.query.limit || 2;
+    const skip = req.query.skip || 0;
+    //search query
+    const searchName = req.query.name || "";
+    //find all author from database
+    const author = await Author.find({
+      where: {
+        name: { contains: searchName },
+      },
+      limit: limit,
+      skip: skip,
+    });
+    //check book data is coming or not
+    if (author.length === 0) {
+      return res.status(409).json({
+        message: sails.__("author.notFound"),
+      });
+    } else {
       return res.status(200).json({
         message: sails.__("author.found"),
         count: author.length,
         author: author,
-      });
-    } catch (error) {
-      return res.status(409).json({
-        message: sails.__("category.notFound"),
-        error: error,
       });
     }
   },

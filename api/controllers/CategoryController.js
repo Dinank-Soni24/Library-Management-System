@@ -41,21 +41,28 @@ module.exports = {
   },
 
   getCategory: async (req, res) => {
-    try {
-      // pagination
-      const limit = req.query.limit || 2;
-      const skip = req.query.skip || 0;
-      //find all category from database
-      const category = await Category.find({ limit: limit, skip: skip });
-
+    // pagination
+    const limit = req.query.limit || 2;
+    const skip = req.query.skip || 0;
+    //search query
+    const searchName = req.query.name || "";
+    //find all category from database
+    const category = await Category.find({
+      where: {
+        name: { contains: searchName },
+      },
+      limit: limit,
+      skip: skip,
+    });
+    //check book data is coming or not
+    if (category.length === 0) {
+      return res.status(409).json({
+        message: sails.__("category.notFound"),
+      });
+    } else {
       return res.status(200).json({
         message: sails.__("category.found"),
         category: category,
-      });
-    } catch (error) {
-      return res.status(409).json({
-        message: sails.__("category.notFound"),
-        error: error,
       });
     }
   },
