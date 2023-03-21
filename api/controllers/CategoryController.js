@@ -83,10 +83,10 @@ module.exports = {
         const category = await Category.updateOne(
           { id },
           { name: name }
-        ).fetch();
+        );
         //check the category is update or not
-        if (category.length === 0) {
-          return res.status(409).json({
+        if (!category) {
+          return res.status(404).json({
             message: sails.__("category.notFound"),
           });
         } else {
@@ -98,7 +98,7 @@ module.exports = {
       } catch (error) {
         return res.status(409).json({
           message: sails.__("category.notUpdate"),
-          error: error,
+          error: error.toString(),
         });
       }
     }
@@ -115,7 +115,7 @@ module.exports = {
 
       //check the category is deleted or not
       if (category.length === 0) {
-        return res.status(409).json({
+        return res.status(404).json({
           message: sails.__("category.notFound"),
         });
       } else {

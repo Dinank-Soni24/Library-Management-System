@@ -114,7 +114,7 @@ module.exports = {
       }).populate("bookId");
 
       if (history.length === 0) {
-        return res.status(409).json({
+        return res.status(404).json({
           message: sails.__("history.notFound"),
         });
       } else {

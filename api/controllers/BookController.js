@@ -91,7 +91,7 @@ module.exports = {
 
     //check book data is coming or not
     if (books.length === 0) {
-      return res.status(409).json({
+      return res.status(404).json({
         message: sails.__("book.notFound"),
       });
     } else {
@@ -99,7 +99,7 @@ module.exports = {
         (book) => book.categoryId.length && book.authorId.length
       );
       if (result.length === 0) {
-        return res.status(409).json({
+        return res.status(404).json({
           message: sails.__("book.notFound"),
         });
       } else {
@@ -202,7 +202,7 @@ module.exports = {
 
     //check book data is coming or not
     if (books.length === 0) {
-      return res.status(409).json({
+      return res.status(404).json({
         message: sails.__("book.notFound"),
       });
     } else {
@@ -210,7 +210,7 @@ module.exports = {
         (book) => book.categoryId.length && book.authorId.length
       );
       if (result.length === 0) {
-        return res.status(409).json({
+        return res.status(404).json({
           message: sails.__("book.notFound"),
         });
       } else {

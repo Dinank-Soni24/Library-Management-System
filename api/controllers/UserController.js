@@ -84,7 +84,7 @@ module.exports = {
             token: token,
           });
         } catch (error) {
-          return res.status(422).json({
+          return res.status(400).json({
             message: sails.__("user.notUpdate"),
             error: error,
           });

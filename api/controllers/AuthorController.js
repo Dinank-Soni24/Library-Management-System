@@ -56,7 +56,7 @@ module.exports = {
     });
     //check book data is coming or not
     if (author.length === 0) {
-      return res.status(409).json({
+      return res.status(404).json({
         message: sails.__("author.notFound"),
       });
     } else {
@@ -115,7 +115,7 @@ module.exports = {
 
       //check the author is deleted or not
       if (author.length === 0) {
-        return res.status(409).json({
+        return res.status(404).json({
           message: sails.__("author.notFound"),
         });
       } else {
