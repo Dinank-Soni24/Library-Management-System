@@ -53,6 +53,7 @@ module.exports = {
       },
       limit: limit,
       skip: skip,
+      sort: "createdAt DESC",
     });
     //check book data is coming or not
     if (category.length === 0) {
@@ -62,6 +63,7 @@ module.exports = {
     } else {
       return res.status(200).json({
         message: sails.__("category.found"),
+        count: category.length,
         category: category,
       });
     }
@@ -111,7 +113,6 @@ module.exports = {
 
       //delete category from database
       const category = await Category.destroy({ id }).fetch();
-      console.log(category);
 
       //check the category is deleted or not
       if (category.length === 0) {

@@ -53,6 +53,7 @@ module.exports = {
       },
       limit: limit,
       skip: skip,
+      sort: "createdAt DESC",
     });
     //check book data is coming or not
     if (author.length === 0) {

@@ -12,7 +12,6 @@ module.exports = {
 
     //check body data is coming or not
     if (!name || !categoryId || !authorId || !price || !publishYear) {
-      console.log(publishYear.length);
       return res.status(400).json({
         message: sails.__("book.dataNotCome"),
       });
@@ -22,34 +21,45 @@ module.exports = {
           //get id from helper
           const id = await sails.helpers.generateId();
 
-          const newBook = await Book.create({
-            id,
-            name,
-            price,
-            publishYear,
-            issued: false,
-          }).fetch();
+          //find author & category in database
+          const author = await Author.findOne({ id: authorId });
+          const category = await Category.findOne({ id: categoryId });
 
-          // Add the bookId and authorId in BookAuthor
-          const newBookAuthor = await BookAuthor.create({
-            id: await sails.helpers.generateId(),
-            bookId: newBook.id,
-            authorId: authorId,
-          }).fetch();
+          // check author and category is in database or not.
+          if (!author || !category) {
+            return res.status(404).json({
+              message: {
+                message: sails.__("data.notFound"),
+              },
+            });
+          } else {
+            const newBook = await Book.create({
+              id,
+              name,
+              price,
+              publishYear,
+              issued: false,
+            }).fetch();
+            // Add the bookId and authorId in BookAuthor
+            const newBookAuthor = await BookAuthor.create({
+              id: await sails.helpers.generateId(),
+              bookId: newBook.id,
+              authorId: authorId,
+            }).fetch();
+            // Add the bookId and categoryId in BookCategory
+            const nebBookCategory = await BookCategory.create({
+              id: await sails.helpers.generateId(),
+              bookId: newBook.id,
+              categoryId: categoryId,
+            }).fetch();
 
-          // Add the bookId and categoryId in BookCategory
-          const nebBookCategory = await BookCategory.create({
-            id: await sails.helpers.generateId(),
-            bookId: newBook.id,
-            categoryId: categoryId,
-          }).fetch();
-
-          return res.status(201).json({
-            message: sails.__("book.created"),
-            book: newBook,
-            author: newBookAuthor,
-            category: nebBookCategory,
-          });
+            return res.status(201).json({
+              message: sails.__("book.created"),
+              book: newBook,
+              author: newBookAuthor,
+              category: nebBookCategory,
+            });
+          }
         } catch (error) {
           return res.status(404).json({
             message: {
@@ -83,6 +93,7 @@ module.exports = {
       },
       limit: limit,
       skip: skip,
+      sort: "createdAt DESC",
     })
       .populate("categoryId", {
         where: { name: { contains: searchCategory } },
@@ -95,9 +106,12 @@ module.exports = {
         message: sails.__("book.notFound"),
       });
     } else {
+      // filter category and author for search
       const result = books.filter(
         (book) => book.categoryId.length && book.authorId.length
       );
+
+      //check result is coming or not
       if (result.length === 0) {
         return res.status(409).json({
           message: sails.__("book.notFound"),
@@ -105,6 +119,7 @@ module.exports = {
       } else {
         return res.status(200).json({
           message: sails.__("book.found"),
+          count: result.length,
           book: result,
         });
       }
@@ -118,18 +133,24 @@ module.exports = {
 
     if (name || price || publishYear || categoryId || authorId) {
       try {
+        // update book with coming data from body
         const book = await Book.update(
           { id },
           { name: name, price: price, publishYear: publishYear }
-        ).fetch();
+        );
+
+        // update bookAuthor with coming data from body
         const bookAuthor = await BookAuthor.update(
           { bookId: id },
           { authorId: authorId }
-        ).fetch();
+        );
+
+        // update bookCategory with coming data from body
         const bookCategory = await BookCategory.update(
           { bookId: id },
           { categoryId: categoryId }
-        ).fetch();
+        );
+
         return res.status(200).json({
           message: sails.__("book.update"),
           book: book,
@@ -206,9 +227,12 @@ module.exports = {
         message: sails.__("book.notFound"),
       });
     } else {
+      // filter category and author for search
       const result = books.filter(
         (book) => book.categoryId.length && book.authorId.length
       );
+
+      //check result is coming or not
       if (result.length === 0) {
         return res.status(409).json({
           message: sails.__("book.notFound"),
@@ -216,6 +240,7 @@ module.exports = {
       } else {
         return res.status(200).json({
           message: sails.__("book.found"),
+          count: result.length,
           book: result,
         });
       }
