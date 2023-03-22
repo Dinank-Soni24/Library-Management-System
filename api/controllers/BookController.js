@@ -7,6 +7,10 @@
 
 module.exports = {
   addBook: async (req, res) => {
+    //it set the coming header language
+    const lang = req.getLocale();
+    sails.hooks.i18n.setLocale(lang);
+
     //get the book name and email from body
     const { name, categoryId, authorId, price, publishYear } = req.body;
 
@@ -77,6 +81,10 @@ module.exports = {
   },
 
   getBook: async (req, res) => {
+    //it set the coming header language
+    const lang = req.getLocale();
+    sails.hooks.i18n.setLocale(lang);
+
     // pagination
     const limit = req.query.limit || 2;
     const skip = req.query.skip || 0;
@@ -127,6 +135,10 @@ module.exports = {
   },
 
   updateBook: async (req, res) => {
+    //it set the coming header language
+    const lang = req.getLocale();
+    sails.hooks.i18n.setLocale(lang);
+
     //get the book id from params and bookData from body
     const { id } = req.params;
     const { name, price, publishYear, categoryId, authorId } = req.body;
@@ -172,6 +184,10 @@ module.exports = {
 
   deleteBook: async (req, res) => {
     try {
+      //it set the coming header language
+      const lang = req.getLocale();
+      sails.hooks.i18n.setLocale(lang);
+
       //get the book id from params
       const { id } = req.params;
 
@@ -198,6 +214,10 @@ module.exports = {
   },
 
   availableBook: async (req, res) => {
+    //it set the coming header language
+    const lang = req.getLocale();
+    sails.hooks.i18n.setLocale(lang);
+
     // pagination
     const limit = req.query.limit || 2;
     const skip = req.query.skip || 0;

@@ -8,6 +8,10 @@
 
 module.exports = {
   addCategory: async (req, res) => {
+    //it set the coming header language
+    const lang = req.getLocale();
+    sails.hooks.i18n.setLocale(lang);
+
     //get the category name from body
     const { name } = req.body;
 
@@ -41,6 +45,10 @@ module.exports = {
   },
 
   getCategory: async (req, res) => {
+    //it set the coming header language
+    const lang = req.getLocale();
+    sails.hooks.i18n.setLocale(lang);
+
     // pagination
     const limit = req.query.limit || 2;
     const skip = req.query.skip || 0;
@@ -70,6 +78,10 @@ module.exports = {
   },
 
   updateCategory: async (req, res) => {
+    //it set the coming header language
+    const lang = req.getLocale();
+    sails.hooks.i18n.setLocale(lang);
+
     //get the category id from params and name from body
     const { id } = req.params;
     const { name } = req.body;
@@ -107,6 +119,10 @@ module.exports = {
   },
 
   deleteCategory: async (req, res) => {
+    //it set the coming header language
+    const lang = req.getLocale();
+    sails.hooks.i18n.setLocale(lang);
+
     try {
       //get the category id from params
       const { id } = req.params;
