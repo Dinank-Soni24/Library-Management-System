@@ -7,12 +7,15 @@
 
 module.exports = {
   addBook: async (req, res) => {
+    //it set the coming header language
+    const lang = req.getLocale();
+    sails.hooks.i18n.setLocale(lang);
+
     //get the book name and email from body
     const { name, categoryId, authorId, price, publishYear } = req.body;
 
     //check body data is coming or not
     if (!name || !categoryId || !authorId || !price || !publishYear) {
-      console.log(publishYear.length);
       return res.status(400).json({
         message: sails.__("book.dataNotCome"),
       });
@@ -22,34 +25,45 @@ module.exports = {
           //get id from helper
           const id = await sails.helpers.generateId();
 
-          const newBook = await Book.create({
-            id,
-            name,
-            price,
-            publishYear,
-            issued: false,
-          }).fetch();
+          //find author & category in database
+          const author = await Author.findOne({ id: authorId });
+          const category = await Category.findOne({ id: categoryId });
 
-          // Add the bookId and authorId in BookAuthor
-          const newBookAuthor = await BookAuthor.create({
-            id: await sails.helpers.generateId(),
-            bookId: newBook.id,
-            authorId: authorId,
-          }).fetch();
+          // check author and category is in database or not.
+          if (!author || !category) {
+            return res.status(404).json({
+              message: {
+                message: sails.__("data.notFound"),
+              },
+            });
+          } else {
+            const newBook = await Book.create({
+              id,
+              name,
+              price,
+              publishYear,
+              issued: false,
+            }).fetch();
+            // Add the bookId and authorId in BookAuthor
+            const newBookAuthor = await BookAuthor.create({
+              id: await sails.helpers.generateId(),
+              bookId: newBook.id,
+              authorId: authorId,
+            }).fetch();
+            // Add the bookId and categoryId in BookCategory
+            const nebBookCategory = await BookCategory.create({
+              id: await sails.helpers.generateId(),
+              bookId: newBook.id,
+              categoryId: categoryId,
+            }).fetch();
 
-          // Add the bookId and categoryId in BookCategory
-          const nebBookCategory = await BookCategory.create({
-            id: await sails.helpers.generateId(),
-            bookId: newBook.id,
-            categoryId: categoryId,
-          }).fetch();
-
-          return res.status(201).json({
-            message: sails.__("book.created"),
-            book: newBook,
-            author: newBookAuthor,
-            category: nebBookCategory,
-          });
+            return res.status(201).json({
+              message: sails.__("book.created"),
+              book: newBook,
+              author: newBookAuthor,
+              category: nebBookCategory,
+            });
+          }
         } catch (error) {
           return res.status(404).json({
             message: {
@@ -67,6 +81,10 @@ module.exports = {
   },
 
   getBook: async (req, res) => {
+    //it set the coming header language
+    const lang = req.getLocale();
+    sails.hooks.i18n.setLocale(lang);
+
     // pagination
     const limit = req.query.limit || 2;
     const skip = req.query.skip || 0;
@@ -83,6 +101,7 @@ module.exports = {
       },
       limit: limit,
       skip: skip,
+      sort: "createdAt DESC",
     })
       .populate("categoryId", {
         where: { name: { contains: searchCategory } },
@@ -95,9 +114,12 @@ module.exports = {
         message: sails.__("book.notFound"),
       });
     } else {
+      // filter category and author for search
       const result = books.filter(
         (book) => book.categoryId.length && book.authorId.length
       );
+
+      //check result is coming or not
       if (result.length === 0) {
         return res.status(404).json({
           message: sails.__("book.notFound"),
@@ -105,6 +127,7 @@ module.exports = {
       } else {
         return res.status(200).json({
           message: sails.__("book.found"),
+          count: result.length,
           book: result,
         });
       }
@@ -112,24 +135,34 @@ module.exports = {
   },
 
   updateBook: async (req, res) => {
+    //it set the coming header language
+    const lang = req.getLocale();
+    sails.hooks.i18n.setLocale(lang);
+
     //get the book id from params and bookData from body
     const { id } = req.params;
     const { name, price, publishYear, categoryId, authorId } = req.body;
 
     if (name || price || publishYear || categoryId || authorId) {
       try {
+        // update book with coming data from body
         const book = await Book.update(
           { id },
           { name: name, price: price, publishYear: publishYear }
-        ).fetch();
+        );
+
+        // update bookAuthor with coming data from body
         const bookAuthor = await BookAuthor.update(
           { bookId: id },
           { authorId: authorId }
-        ).fetch();
+        );
+
+        // update bookCategory with coming data from body
         const bookCategory = await BookCategory.update(
           { bookId: id },
           { categoryId: categoryId }
-        ).fetch();
+        );
+
         return res.status(200).json({
           message: sails.__("book.update"),
           book: book,
@@ -151,6 +184,10 @@ module.exports = {
 
   deleteBook: async (req, res) => {
     try {
+      //it set the coming header language
+      const lang = req.getLocale();
+      sails.hooks.i18n.setLocale(lang);
+
       //get the book id from params
       const { id } = req.params;
 
@@ -177,6 +214,10 @@ module.exports = {
   },
 
   availableBook: async (req, res) => {
+    //it set the coming header language
+    const lang = req.getLocale();
+    sails.hooks.i18n.setLocale(lang);
+
     // pagination
     const limit = req.query.limit || 2;
     const skip = req.query.skip || 0;
@@ -206,9 +247,12 @@ module.exports = {
         message: sails.__("book.notFound"),
       });
     } else {
+      // filter category and author for search
       const result = books.filter(
         (book) => book.categoryId.length && book.authorId.length
       );
+
+      //check result is coming or not
       if (result.length === 0) {
         return res.status(404).json({
           message: sails.__("book.notFound"),
@@ -216,6 +260,7 @@ module.exports = {
       } else {
         return res.status(200).json({
           message: sails.__("book.found"),
+          count: result.length,
           book: result,
         });
       }

@@ -11,6 +11,10 @@ const { Roles } = sails.config.constant;
 
 module.exports = {
   signUp: async (req, res) => {
+    //it set the coming header language
+    const lang = req.getLocale();
+    sails.hooks.i18n.setLocale(lang);
+
     //get the user's data from body
     const { name, email, password } = req.body;
 
@@ -50,6 +54,10 @@ module.exports = {
   },
 
   login: async (req, res) => {
+    //it set the coming header language
+    const lang = req.getLocale();
+    sails.hooks.i18n.setLocale(lang);
+
     // get the user's data from body
     const { email, password } = req.body;
 
@@ -100,6 +108,10 @@ module.exports = {
   },
 
   logout: async (req, res) => {
+    //it set the coming header language
+    const lang = req.getLocale();
+    sails.hooks.i18n.setLocale(lang);
+
     try {
       // get the id from isLoggedIn policies
       const id = req.userData.id;

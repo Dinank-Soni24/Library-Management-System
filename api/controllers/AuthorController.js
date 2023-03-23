@@ -7,6 +7,10 @@
 
 module.exports = {
   addAuthor: async (req, res) => {
+    //it set the coming header language
+    const lang = req.getLocale();
+    sails.hooks.i18n.setLocale(lang);
+
     //get the author name and email from body
     const { name, email } = req.body;
 
@@ -41,6 +45,10 @@ module.exports = {
   },
 
   getAuthor: async (req, res) => {
+    //it set the coming header language
+    const lang = req.getLocale();
+    sails.hooks.i18n.setLocale(lang);
+
     // pagination
     const limit = req.query.limit || 2;
     const skip = req.query.skip || 0;
@@ -53,6 +61,7 @@ module.exports = {
       },
       limit: limit,
       skip: skip,
+      sort: "createdAt DESC",
     });
     //check book data is coming or not
     if (author.length === 0) {
@@ -69,6 +78,10 @@ module.exports = {
   },
 
   updateAuthor: async (req, res) => {
+    //it set the coming header language
+    const lang = req.getLocale();
+    sails.hooks.i18n.setLocale(lang);
+
     //get the author id from params and name from body
     const { id } = req.params;
     const { name, email } = req.body;
@@ -106,6 +119,10 @@ module.exports = {
   },
 
   deleteAuthor: async (req, res) => {
+    //it set the coming header language
+    const lang = req.getLocale();
+    sails.hooks.i18n.setLocale(lang);
+
     try {
       //get the author id from params
       const { id } = req.params;

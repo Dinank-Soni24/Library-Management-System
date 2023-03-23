@@ -7,6 +7,10 @@
 
 module.exports = {
   issuedBook: async (req, res) => {
+    //it set the coming header language
+    const lang = req.getLocale();
+    sails.hooks.i18n.setLocale(lang);
+
     //get user id from token
     const userId = req.userData.id;
     // console.log(userId);
@@ -48,6 +52,10 @@ module.exports = {
   },
 
   returnBook: async (req, res) => {
+    //it set the coming header language
+    const lang = req.getLocale();
+    sails.hooks.i18n.setLocale(lang);
+
     //get user id from token
     const userId = req.userData.id;
 
@@ -94,6 +102,10 @@ module.exports = {
   },
 
   getHistory: async (req, res) => {
+    //it set the coming header language
+    const lang = req.getLocale();
+    sails.hooks.i18n.setLocale(lang);
+
     // pagination
     const limit = req.query.limit || 2;
     const skip = req.query.skip || 0;

@@ -35,5 +35,8 @@
 	"history.found": "history found successfully",
 	"history.notFound": "history is not Found",
 	"book.found": "book found successfully",
-	"book.notYearData": "book year data is invalid. please enter data in YYYY formate"
+	"book.notYearData": "book year data is invalid. please enter data in YYYY formate",
+	"data.notFound": "author or category data is not Found",
+	"author.notUpdate": "author is not Update",
+	"user.notfound": "user not found"
 }

@@ -8,6 +8,10 @@
 
 module.exports = {
   addCategory: async (req, res) => {
+    //it set the coming header language
+    const lang = req.getLocale();
+    sails.hooks.i18n.setLocale(lang);
+
     //get the category name from body
     const { name } = req.body;
 
@@ -41,6 +45,10 @@ module.exports = {
   },
 
   getCategory: async (req, res) => {
+    //it set the coming header language
+    const lang = req.getLocale();
+    sails.hooks.i18n.setLocale(lang);
+
     // pagination
     const limit = req.query.limit || 2;
     const skip = req.query.skip || 0;
@@ -53,6 +61,7 @@ module.exports = {
       },
       limit: limit,
       skip: skip,
+      sort: "createdAt DESC",
     });
     //check book data is coming or not
     if (category.length === 0) {
@@ -62,12 +71,17 @@ module.exports = {
     } else {
       return res.status(200).json({
         message: sails.__("category.found"),
+        count: category.length,
         category: category,
       });
     }
   },
 
   updateCategory: async (req, res) => {
+    //it set the coming header language
+    const lang = req.getLocale();
+    sails.hooks.i18n.setLocale(lang);
+
     //get the category id from params and name from body
     const { id } = req.params;
     const { name } = req.body;
@@ -105,13 +119,16 @@ module.exports = {
   },
 
   deleteCategory: async (req, res) => {
+    //it set the coming header language
+    const lang = req.getLocale();
+    sails.hooks.i18n.setLocale(lang);
+
     try {
       //get the category id from params
       const { id } = req.params;
 
       //delete category from database
       const category = await Category.destroy({ id }).fetch();
-      console.log(category);
 
       //check the category is deleted or not
       if (category.length === 0) {
