@@ -4,7 +4,7 @@
  * @description :: Server-side actions for handling incoming requests.
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
-
+const { v4: uuidv4 } = require("uuid");
 module.exports = {
   addBook: async (req, res) => {
     //it set the coming header language
@@ -24,13 +24,16 @@ module.exports = {
         try {
           //get id from helper
           const id = await sails.helpers.generateId();
-
+          const categoryIds = categoryId.split(',');
+          const authorIds = authorId.split(',');
           //find author & category in database
-          const author = await Author.findOne({ id: authorId });
-          const category = await Category.findOne({ id: categoryId });
+          const author = await Author.findOne({ id: { in: authorIds} });
+          const category = await Category.find({ id: { in: categoryIds} });
+          console.log(category);
+
 
           // check author and category is in database or not.
-          if (!author || !category) {
+          if (author.length === 0 || category.length === 0) {
             return res.status(404).json({
               message: {
                 message: sails.__("data.notFound"),
@@ -44,24 +47,31 @@ module.exports = {
               publishYear,
               issued: false,
             }).fetch();
+
             // Add the bookId and authorId in BookAuthor
             const newBookAuthor = await BookAuthor.create({
               id: await sails.helpers.generateId(),
               bookId: newBook.id,
               authorId: authorId,
             }).fetch();
+
             // Add the bookId and categoryId in BookCategory
-            const nebBookCategory = await BookCategory.create({
-              id: await sails.helpers.generateId(),
+            // const nebBookCategory = await BookCategory.create({
+            //   id: await sails.helpers.generateId(),
+            //   bookId: newBook.id,
+            //   categoryId: categoryId,
+            // }).fetch();
+            const newBookCategory = await BookCategory.createEach(categoryIds.map(category => ({
+              id: uuidv4(),
               bookId: newBook.id,
-              categoryId: categoryId,
-            }).fetch();
+              categoryId: category,
+            })));
 
             return res.status(201).json({
               message: sails.__("book.created"),
               book: newBook,
               author: newBookAuthor,
-              category: nebBookCategory,
+              category: newBookCategory,
             });
           }
         } catch (error) {
