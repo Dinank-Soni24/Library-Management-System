@@ -21,8 +21,8 @@ module.exports.bootstrap = async function() {
   //   return console.log(1);;
   // }
 
-  const user = await User.findOne({roles: 'a'});
   const { Roles } = sails.config.constant;
+  const user = await User.findOne({roles: Roles.Admin});
   const { v4: uuidv4 } = require('uuid');
   const hashedPassword = await bcrypt.hash('123456', 10);
   if (!user) {
