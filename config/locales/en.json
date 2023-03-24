@@ -38,5 +38,6 @@
 	"book.notYearData": "book year data is invalid. please enter data in YYYY formate",
 	"data.notFound": "author or category data is not Found",
 	"author.notUpdate": "author is not Update",
-	"user.notfound": "user not found"
+	"user.notfound": "user not found",
+	"book.notUpdate": "book not Update"
 }

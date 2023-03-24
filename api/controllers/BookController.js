@@ -24,16 +24,15 @@ module.exports = {
         try {
           //get id from helper
           const id = await sails.helpers.generateId();
-          const categoryIds = categoryId.split(',');
-          const authorIds = authorId.split(',');
-          //find author & category in database
-          const author = await Author.findOne({ id: { in: authorIds} });
-          const category = await Category.find({ id: { in: categoryIds} });
-          console.log(category);
+          const categoryIds = categoryId.split(",");
+          const authorIds = authorId.split(",");
 
+          //find author & category in database
+          const author = await Author.find({ id: { in: authorIds } });
+          const category = await Category.find({ id: { in: categoryIds } });
 
           // check author and category is in database or not.
-          if (author.length === 0 || category.length === 0) {
+          if (author.length !== authorIds.length || category.length !== categoryIds.length) {
             return res.status(404).json({
               message: {
                 message: sails.__("data.notFound"),
@@ -49,11 +48,18 @@ module.exports = {
             }).fetch();
 
             // Add the bookId and authorId in BookAuthor
-            const newBookAuthor = await BookAuthor.create({
-              id: await sails.helpers.generateId(),
-              bookId: newBook.id,
-              authorId: authorId,
-            }).fetch();
+            // const newBookAuthor = await BookAuthor.create({
+            //   id: await sails.helpers.generateId(),
+            //   bookId: newBook.id,
+            //   authorId: authorId,
+            // }).fetch();
+            const newBookAuthor = await BookAuthor.createEach(
+              authorIds.map((author) => ({
+                id: uuidv4(),
+                bookId: newBook.id,
+                authorId: author,
+              }))
+            );
 
             // Add the bookId and categoryId in BookCategory
             // const nebBookCategory = await BookCategory.create({
@@ -61,11 +67,13 @@ module.exports = {
             //   bookId: newBook.id,
             //   categoryId: categoryId,
             // }).fetch();
-            const newBookCategory = await BookCategory.createEach(categoryIds.map(category => ({
-              id: uuidv4(),
-              bookId: newBook.id,
-              categoryId: category,
-            })));
+            const newBookCategory = await BookCategory.createEach(
+              categoryIds.map((category) => ({
+                id: uuidv4(),
+                bookId: newBook.id,
+                categoryId: category,
+              }))
+            );
 
             return res.status(201).json({
               message: sails.__("book.created"),
@@ -151,9 +159,9 @@ module.exports = {
 
     //get the book id from params and bookData from body
     const { id } = req.params;
-    const { name, price, publishYear, categoryId, authorId } = req.body;
+    const { name, price, publishYear, categoryIdNew, categoryIdOld, authorIdNew, authorIdOld } = req.body;
 
-    if (name || price || publishYear || categoryId || authorId) {
+    if (name || price || publishYear || (categoryIdNew && categoryIdOld) || (authorIdNew && authorIdOld)) {
       try {
         // update book with coming data from body
         const book = await Book.update(
@@ -163,14 +171,14 @@ module.exports = {
 
         // update bookAuthor with coming data from body
         const bookAuthor = await BookAuthor.update(
-          { bookId: id },
-          { authorId: authorId }
+          { bookId: id, authorId: authorIdOld },
+          { authorId: authorIdNew }
         );
 
         // update bookCategory with coming data from body
         const bookCategory = await BookCategory.update(
-          { bookId: id },
-          { categoryId: categoryId }
+          { bookId: id, categoryId: categoryIdOld },
+          { categoryId: categoryIdNew }
         );
 
         return res.status(200).json({
